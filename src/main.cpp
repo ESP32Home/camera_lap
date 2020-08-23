@@ -8,13 +8,13 @@
 #include "json_file.h"
 
 DynamicJsonDocument config(5*1024);//5 KB
-MQTTClient mqtt(1*1024);// 20KB for jpg images
+MQTTClient mqtt(20*1024);// 20KB for jpg images
 WiFiClient wifi;//needed to stay on global scope
 
 void mqtt_try_connect(){
   mqtt.connect(config["mqtt"]["client_id"]);
   if(mqtt.connected()){
-    Serial.println("\nmqtt>connected");
+    Serial.println("mqtt>connected");
     String str_config;
     serializeJson(config,str_config);
     String str_topic = config["camera"]["base_topic"];
@@ -31,8 +31,6 @@ void mqtt_start(DynamicJsonDocument &config){
 
 void mqtt_loop(){
   mqtt.loop();
-  Serial.printf("'%c'",mqtt.connected());
-  Serial.printf("'%d'",mqtt.connected());
   if (!mqtt.connected()) {
     mqtt_try_connect();
   }
@@ -56,15 +54,14 @@ void camera_start(DynamicJsonDocument &config){
 void camera_publish(){
   auto frame = esp32cam::capture();
   if (frame == nullptr) {
-    Serial.println("CAPTURE FAIL");
+    Serial.println("camera> CAPTURE FAIL");
     return;
   }
-  Serial.printf("\nCAPTURE OK %dx%d %db\n", frame->getWidth(), frame->getHeight(),
+  Serial.printf("camera> CAPTURE OK %dx%d %db\n", frame->getWidth(), frame->getHeight(),
               static_cast<int>(frame->size()));
   String str_topic = config["camera"]["base_topic"];
-  str_topic += "/jpg";
-  Serial.printf("mqtt> publishing on %s",str_topic.c_str());
-  mqtt.publish(str_topic,"main image jpg content will go here");
+  Serial.printf("mqtt> publishing on %s\n",str_topic.c_str());
+  mqtt.publish(str_topic+"/jpg","main image jpg content will go here");
 }
 
 void setup() {

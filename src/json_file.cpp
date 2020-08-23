@@ -45,15 +45,17 @@ bool save_json(DynamicJsonDocument &config,const char* FileName){
     return true;
 }
 
-bool load_config(DynamicJsonDocument &config){
+bool load_config(DynamicJsonDocument &config,bool verbose){
     bool result = load_json(config,"/config.json");
-    if(result){
-        Serial.println();
-        Serial.println("Loaded configuration :");
-        serializeJsonPretty(config, Serial);
-        Serial.println();
-    }else{
-        Serial.println("Failed to load configuration");
+    if(verbose){
+        if(result){
+            Serial.println();
+            Serial.println("Loaded configuration :");
+            serializeJsonPretty(config, Serial);
+            Serial.println();
+        }else{
+            Serial.println("Failed to load configuration");
+        }
     }
     return result;
 }

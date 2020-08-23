@@ -8,6 +8,7 @@
         "width":800,
         "height":600,
         "buffer_count":2,
-        "jpeg_quality":80
+        "jpeg_quality":80,
+        "base_topic":"camera"
     }
 }

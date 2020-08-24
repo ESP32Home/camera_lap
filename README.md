@@ -8,5 +8,14 @@ ESP32 AI Thinker camera application that publishes an mqtt jpg image every lap t
 ## sensor
 * OV2640
 
-## Dependencies
-* File System : [spiffs esp32 api-reference](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/storage/spiffs.html)
+## Runtime
+
+| step ready | Timestamp sec |
+|-----------|------|
+| Flash Boot | 1.447 |
+| Config | 1.523 |
+| Camera | 1.873 |
+| Wifi | 6.094 |
+| MQTT | 6.139 |
+| Capture | 6.263 |
+| Publish | ? |
